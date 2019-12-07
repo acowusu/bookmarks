@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<body>
+<style>
+.red{
+    background: #da6a79;
+    /* border: 1px solor #aaa; */
+    /* font-size: 2em; */
+    border-radius: 5px;
+    box-shadow: none;
+    border: 0;
+    float: right;
+
+}
+button{
+    background: #ccc;
+    border-radius: 5px;
+    box-shadow: none;
+    border: 0;
+    /* float: right; */
+
+}
+ul{
+    padding: 0%;
+}
+li{
+    padding: 15px;
+    list-style: none;
+    background: #ccc;
+    margin:  5px ;
+    border-radius: 5px;
+}
+.container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* cont */
+}
+</style>
+<div  class=" container">
+    <div>
+        <div id="result"></div>
+    <input type="text" id="inp" >
+    <button onclick="add(document.getElementById('inp').value)" >Add bookmark</button>
+    
+    <ul id="items-container">
+    
+    </ul>
+</div>
+</div>
+<script>
+    function load() {
+        document.getElementById("items-container").innerHTML = ""
+        const values = getarr()
+        console.log(values)
+        values.forEach(element => {
+            document.getElementById("items-container").innerHTML += "<li>"+element+" <button class='red' onclick='remove(\""+element+"\")' >remove</button></li>"
+        });
+    }
+    function remove(item) {
+        set( getarr().filter(function(element){
+            return element != item
+        }))
+        load()
+    }
+    function getarr() {
+        if (localStorage.getItem("values")) {
+            return JSON.parse(localStorage.getItem("values"))
+
+        } else {
+            return []
+        }
+    }
+    function add(element) {
+        if (element == ""){
+            alert("bookmark cannot be empty")
+        }else if (getarr().includes(element)) {
+            
+            alert("element already in list")
+        } else {
+            let items = getarr()
+        items.push(element)
+        set(items)
+        load();
+        }
+    }
+    function set(val) {
+        localStorage.setItem("values",  JSON.stringify(val));
+    }
+if (typeof(Storage) !== "undefined") {
+  load()
+} else {
+}
+</script>
+
+</body>
+</html>
